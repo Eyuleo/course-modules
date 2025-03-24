@@ -1,0 +1,256 @@
+#include <iostream>
+using namespace std;
+
+struct treeNode {
+  int data;
+  treeNode* left;
+  treeNode* right;
+};
+
+class BST
+{
+  treeNode* root;
+  treeNode* findNode(treeNode*, int);
+  treeNode* findMin(treeNode*);
+  treeNode* findMax(treeNode*);
+  treeNode* removeNode(treeNode*, int);
+  void insertNode(treeNode*, int);
+  void destroyTree(treeNode*);
+  void inOrder(treeNode*);
+  void preOrder(treeNode*);
+  void postOrder(treeNode*);
+   bool isLeafNode(treeNode*);
+
+public:
+  BST();
+  ~BST();
+  void insertNode(int);
+  void destroyTree();
+  void display();
+  treeNode* removeNode(int);
+  treeNode* findNode(int);
+  treeNode* getRoot();
+  int maxdepth();
+};
+
+BST::BST()
+{
+  root = NULL;
+}
+
+BST::~BST()
+{
+  destroyTree();
+}
+
+void BST::insertNode(int key)
+{
+  if (root != NULL) {
+    insertNode(root, key);
+  } else {
+    root = new treeNode;
+    root->data = key;
+    root->left = NULL;
+    root->right = NULL;
+  }
+}
+
+void BST::insertNode(treeNode* leaf, int key)
+{
+  if (key < leaf->data){
+    if (leaf->left != NULL) {
+      insertNode(leaf->left, key);
+    } else {
+      leaf->left = new treeNode;
+      leaf->left->data = key;
+      leaf->left->left = NULL;
+      leaf->left->right = NULL;
+    }
+  } else {
+    if (leaf->right != NULL) {
+      insertNode(leaf->right, key);
+    } else {
+      leaf->right = new treeNode;
+      leaf->right->data = key;
+      leaf->right->left = NULL;
+      leaf->right->right = NULL;
+    }
+  }
+}
+
+treeNode* BST::findNode(int key)
+{
+  // start from the root
+  return findNode(root, key);
+}
+
+treeNode* BST::findNode(treeNode* leaf, int key)
+{
+  if (leaf == NULL) {
+    return NULL;
+  } else if (key == leaf->data) {
+      return leaf;
+  } else if (key < leaf->data){
+    return findNode(leaf->left, key);
+  } else return findNode(leaf->right, key);
+}
+
+treeNode* BST::removeNode(int key)
+{
+  return removeNode(root, key);
+}
+
+treeNode* BST::removeNode(treeNode* t, int key)
+{
+  treeNode* temp;
+
+  // base case with empty node
+  if (t == NULL)
+    return NULL;
+
+  if (key < t->data) {
+    t->left = removeNode(t->left, key); // look in left subtree
+  } else if (key > t->data) {
+    t->right = removeNode(t->right, key); // look in right subtree
+  }
+  else {
+  // key has been found.
+  if (isLeafNode(t)){
+    delete t;
+    t = NULL;
+  } else if (t->right && t->left) {
+    // removing a node with two childen is tricky.
+    // first we find the minimum leaf on the right side of the node we're deleting.
+    // copy the data from the mimimum node to the node we're deleting.
+    // finally delete the minimum node in the right subtree.
+    treeNode* temp = findMin(t->right);
+    t->data = temp->data;
+    t->right = removeNode(t->right, t->data);
+  } else {
+    temp = t;
+    if (t->right == NULL)
+      t = t->left;
+    else if (t->left == NULL)
+      t = t->right;
+      delete temp;
+    }
+  }
+  // eventually returns root node after node removal completes
+  return t;
+}
+
+bool BST::isLeafNode(treeNode* t)
+{
+  if (t != NULL && t->left == NULL && t->right == NULL)
+    return true;
+  else return false;
+}
+
+// find minimum
+treeNode* BST::findMin(treeNode* t)
+{
+  if (t == NULL)
+    return t;
+  else if (t->left == NULL)
+    return t;
+  else return findMin(t->left);
+}
+
+treeNode* BST::findMax(treeNode* t)
+{
+  if (t == NULL)
+    return t;
+  else if (t->right == NULL)
+    return t;
+  else return findMax(t->right);
+}
+
+void BST::destroyTree()
+{
+  destroyTree(root);
+}
+
+void BST::destroyTree(treeNode* leaf)
+{
+  if (leaf != NULL) {
+    destroyTree(leaf->left);
+    destroyTree(leaf->right);
+  }
+
+  delete leaf;
+}
+
+void BST::inOrder(treeNode* t)
+{
+  if (t != NULL) {
+    inOrder(t->left);
+    cout << t->data <<" ";
+    inOrder(t->right);
+  }
+}
+
+void BST::preOrder(treeNode* t)
+{
+  if (t != NULL) {
+    cout << t->data << " ";
+    preOrder(t->left);
+    preOrder(t->right);
+  }
+}
+
+void BST::postOrder(treeNode* t)
+{
+  if (t != NULL) {
+    postOrder(t->left);
+    postOrder(t->right);
+    cout << t->data << " ";
+  }
+}
+void BST::display()
+{
+  cout<<"preOrder: ";
+  preOrder(root);
+  cout<<"\ninOrder: ";
+  inOrder(root);
+  cout<<"\npostOrder: ";
+  postOrder(root);
+}
+
+// returns the max root-to-leaf depth of the tree.
+// O(n)
+int maxDepth(treeNode* t)
+{
+  if (t == NULL) {
+    return 0;
+  } else {
+    int ld = maxDepth(t->left);
+    int rd = maxDepth(t->right);
+
+    return (max(ld, rd) + 1);
+  }
+}
+
+treeNode* BST::getRoot()
+{
+  return root;
+}
+
+int main() {
+
+  BST* tree = new BST();
+  tree->insertNode(50);
+  tree->insertNode(19);
+  tree->insertNode(28);
+  tree->insertNode(40);
+  tree->insertNode(16);
+  tree->insertNode(70);
+  tree->insertNode(55);
+  tree->insertNode(56);
+  tree->insertNode(17);
+  tree->insertNode(90);
+  tree->display();
+  cout<<"\n"<<maxDepth(tree->getRoot());
+
+  delete tree;
+  return 0;
+}

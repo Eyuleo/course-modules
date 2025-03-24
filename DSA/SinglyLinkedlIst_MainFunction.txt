@@ -1,0 +1,63 @@
+//A main function
+int main()
+{
+
+   int choice;
+    while(1){
+            cout<<"\n               MENU          \n";
+            cout<<"\n 1.Create     \n";
+            cout<<"\n 2.Display    \n";
+            cout<<"\n 3.Insert at the beginning    \n";
+            cout<<"\n 4.Insert at the end  \n";
+            cout<<"\n 5.Insert at specified position       \n";
+            cout<<"\n 6.Delete from beginning      \n";
+            cout<<"\n 7.Delete from the end        \n";
+            cout<<"\n 8.Delete from specified position     \n";
+            cout<<"\n 9. Searching a node\n";
+            cout<<"\n 10. Updating a node\n";
+            cout<<"\n 11. Counting the length of the list\n";
+            cout<<"\n 12. Reversing the list\n";
+            cout<<"\n 13. Sorting the list using pointer manipulation\n";
+            cout<<"\n 14. Concatenating two lists\n";
+            cout<<"\n 15. Merging two sorted lists into a third sorted list\n";
+            cout<<"\n 16.Exit       \n";
+            cout<<"\n--------------------------------------\n";
+            cout<<"\nEnter your choice:\t";
+            cin>>choice;
+            switch(choice)
+            {
+                case 1:
+                    createList();
+                    break;
+                case 2:
+                    //display();
+                    printList();
+                    break;
+                case 3:
+                    insertAtBegining();
+                    break;
+                case 4:
+                    insertAtEnd();
+                        break;
+                case 5:
+                    insert_pos1();
+                        break;
+                case 6:
+                    delete_begin();
+                    break;
+                case 7:
+                    delete_End();
+                    break;
+                case 8:
+                    delete_pos();
+                    break;
+                case 16:
+                    exit(0);
+                    break;
+                default:
+                    cout<<"\n Wrong Choice:\n";
+                    break;
+                }
+        }
+        return 0;
+}

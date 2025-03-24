@@ -1,0 +1,177 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+class UpdateUsers extends StatefulWidget {
+  final String id;
+  final String name;
+  final String email;
+
+  const UpdateUsers({
+    super.key,
+    required this.id,
+    required this.name,
+    required this.email,
+  });
+
+  @override
+  State<UpdateUsers> createState() => _UpdateUsersState();
+}
+
+class _UpdateUsersState extends State<UpdateUsers> {
+  TextEditingController txtFullName = TextEditingController();
+  TextEditingController txtEmail = TextEditingController();
+
+  bool _isLoading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Future<void> updateDetails(String name, String email) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var url = "http://192.168.1.110/api/update.php";
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        "name": name,
+        "email": email,
+        "id": widget.id,
+      });
+
+      if (response.body == "true") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User updated successfully")),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Update failed: ${response.body}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> deleteUser(String id) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var url = "http://192.168.1.110/api/delete.php";
+    try {
+      final response = await http.post(Uri.parse(url), body: {
+        "id": id,
+      });
+
+      if (response.body == "true") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User deleted successfully")),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Delete failed: ${response.body}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    txtFullName.text = widget.name;
+    txtEmail.text = widget.email;
+  }
+
+  @override
+  void dispose() {
+    txtFullName.dispose();
+    txtEmail.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Update User"),
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(20),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: txtFullName,
+                      decoration: const InputDecoration(
+                        labelText: 'Full Name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Full Name cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: txtEmail,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Email cannot be empty";
+                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return "Enter a valid email address";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              updateDetails(txtFullName.text, txtEmail.text);
+                            }
+                          },
+                          child: const Text("Update"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            deleteUser(widget.id);
+                          },
+                          child: const Text("Delete"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+}

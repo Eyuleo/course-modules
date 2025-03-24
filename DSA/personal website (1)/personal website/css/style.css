@@ -1,0 +1,273 @@
+
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+body{
+	height: 200vh;
+	background:white;
+	display: flex;
+}
+.hero{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+    background-image: url(bg.jpg);
+}
+nav{
+	position: relative;
+	height: 60px;
+	width:100%;
+	z-index: 3;
+}
+nav .logo{
+	color: aqua;
+	font-size: 44px;
+	font-weight: 900;
+	margin: 0px 44px;
+}
+nav ul{
+	position: absolute;
+	display: flex;
+	right:44px;
+
+	margin-top: -70px;
+}
+nav ul li{
+	list-style: none;
+	margin: 20px 10px;
+	padding: 8px 15px;
+}
+nav ul li a{
+	font-size: 17px;
+	color: white;
+	padding: 8px 17px;
+	text-decoration: none;
+	font-weight: 600;
+}
+img{
+	position: absolute;
+	right: 0;
+	width: 450px;
+	bottom: 0;
+	margin-right: 44px;
+}
+h2{
+	position: absolute;
+	color: aqua;
+	font-size: 30px;
+	left: 44px;
+	top: 30%;
+	margin: 10px;
+}
+span{
+	font-size: 50px;
+	color: white;
+	font-weight: 900;
+}
+i{
+	color: aqua;
+	font-weight: 100;
+}
+button{
+	position: absolute;
+	height: 50px;
+	width: 250px;
+	font-weight: 600;
+	border: 2px solid aqua;
+	left: 44px;
+	top: 70%;
+	background: none;
+	color: aqua;
+	font-size: 20px;
+	font-weight: 600;
+	transition: 1s;
+	cursor: pointer;
+}
+button:hover{
+	background: aqua;
+	color: black;
+}
+section{
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+    top: 100vh;
+    bottom: 0;
+    display: flex;
+    align-content: center;
+}
+h1{
+	color: aqua;
+	font-size: 70px;
+	font-weight: 800;
+	letter-spacing: 4px;
+	margin: 62px 138px;
+}
+.about{
+	position: absolute;
+	color:black;
+	font-size: 70px;
+	margin: 70px -380px;
+	font-size: 800;
+}
+.about-paragrph{
+	color: black;
+	font-size: 23px;
+	font-weight: 300;
+	height: 200px;
+	width: 500px;
+	margin: 360px 30px;
+}
+.social{
+	position: absolute;
+	bottom: 100px;
+	margin-top: 100%;
+	margin-left: 0%;
+	height: 50px;
+	width: 300px;
+}
+.social a{
+	position: relative;
+	font-size: 40px;
+	color: black;
+	cursor: pointer;
+	transition: 1s;
+	margin-bottom: 90%;
+}
+  
+  .testimonials {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	padding: 20px;
+  }
+
+  .testimonial {
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	margin: 20px;
+	padding: 20px;
+	text-align: center;
+	width: 300px;
+  }
+  .jo{
+	border-radius: 15%;
+	width: 150px;
+	height: 200px;
+	object-fit: cover;
+	margin-right: 55%;
+	margin-bottom: 30%;
+  }
+  
+.ja {
+	border-radius: 15%;
+	width: 150px;
+	height: 200px;
+	object-fit: cover;
+	margin-right: 80%;
+	margin-bottom:30%;
+  } 
+  .sa{
+	border-radius: 15%;
+	width: 150px;
+	height: 200px;
+	object-fit: cover;
+	margin-right: 30%;
+	margin-bottom: 30%;
+	
+  }
+  .quote {
+	font-style: italic;
+	margin-bottom: 10px;
+  }
+  
+  .name {
+	font-weight: bold;
+  }
+  .container {
+	flex-grow: 1;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+  }
+  
+  .logos {
+	display: flex;
+	justify-content: center;
+  }
+  
+  .logos img {
+	width: 100px; 
+	margin: 0 10px;
+  }	
+  .box-imge1{
+	position: absolute;
+	height: 320px;
+	width: 320px;
+	margin: 285px 139px;
+	background: url("my.jpg");
+	background-size: cover;
+	border-radius: 50px;
+}
+.services {
+    padding: 40px 0;
+    text-align: center;
+	margin-top: 20%;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .container h2{
+    color: aqua;
+    font-size: 50px;
+  }
+  
+  .service {
+    flex: 0 0 calc(33.3333% - 40px);
+    margin:auto;
+    background-color:gray;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .wb{
+	width: 300px;
+	height: 200px;
+	border-radius: 10%;
+	margin-right: 70%;
+  }
+  .ap{
+	width: 300px;
+	height: 200px;
+	border-radius: 10%;
+	margin-right: 39%;
+  }
+  .dev{
+	width: 300px;
+	height:200px;
+	border-radius: 10%;
+  }
+  
+  .service h3 {
+    font-size: 30px;
+    margin-bottom: 10px;
+	color: black;
+  }
+  
+  .service p {
+    font-size: 14px;
+    color: white;
+  }
+
+   
+

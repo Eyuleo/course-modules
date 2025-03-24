@@ -1,0 +1,28 @@
+
+Due date: November 10, 2023 before mid-night (11:59:59:59...)
+Searching algorithms implementation
+Sorting algorithms implementation
+
+
+//Sample Menu for your program
+
+Here different operations on list
+1. Searching algorithms implementation
+	//sub-menu
+	i. sequential search
+	ii. Binary search
+	iii. Recursive binary search
+	iv. Binary search (for list sort order in descending order)
+
+2. Sorting algorithms implementation
+
+	// sub-menu
+	i. Bubble sort
+	ii. Bubble sort (the smallest bubble up..> descending order)
+	ii. Insertion sort
+	iii. selection sort
+
+
+
+Notes: Add comments to clarify your codes whenever necessary.
+Your program should be menu driven as given above.

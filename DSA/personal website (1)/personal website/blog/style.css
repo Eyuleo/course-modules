@@ -1,0 +1,206 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#blog{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.blog-heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.blog-heading span{
+    color: #f33c3c;
+}
+
+.blog-heading h3{
+    font-size: 2.4rem;
+    color: #2b2b2b;
+    font-weight: 600;
+}
+
+.blog-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;
+    flex-wrap: wrap;
+}
+
+.bog-box{
+    width: 350px;
+    background-color: #ffffff;
+    border: 1px solid #ececec;
+    margin: 20px;
+}
+
+.blog-img{
+    width: 100%;
+    height: auto;
+}
+
+.blog-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.blog-text{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-text span{
+    color: #f33c3c;
+    font-size: 0.9rem;
+}
+   
+.blog-text .blog-title{
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #272727;
+}
+
+.blog-text .blog-title:hover{
+    color: #f33c3c;
+    transition: all ease 0.3s;
+}
+
+.blog-text p{
+    color: #9b9b9b;
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 20px 0px;
+}
+
+.blog-text a{
+    color: #0f0f0f;
+}
+
+.blog-text a:hover{
+    color: #f33c3c;
+    transition: all ease 0.3s;
+}
+.containerr{
+	max-width: 800px;
+	margin-top: 10%;
+  }
+  .contact-form {
+	margin-left: 35%;
+  }
+  .contact-form h1{
+	text-align: center;
+	font-size: 2.5rem;
+	font-weight: 400;
+	color: #fff;
+	font-family: 'poppins';
+	margin-top: 0%;
+  }
+  .contact-form h2{
+	line-height: 40px;
+	margin-bottom: 5px;
+	font-size: 30px;
+	font-weight: 500;
+	color: #69275c;
+	text-align: center;
+  }
+  .contact-form .main{
+	position:relative;
+	display:flex ;
+	margin: 30px 0;
+	width: 100%;
+  }
+  .content{
+	flex-basis: 50%;
+	padding: 3em 3em;
+	background: wheat;
+	box-shadow: 2px 9px 49px -17px rgba(156, 39, 148, 0.1);
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+  }
+  
+  .contact-form form{
+	margin: 30px 0;
+  }
+  .contact-form input{
+	outline: none;
+	margin-bottom: 15px;
+	font-stretch: 16px;
+	border-radius: 5%;
+	color:black;
+	padding: 14px 20px;
+	width: 100%;
+	display: inline-block;
+	box-sizing: border-box;
+	border: none;
+	background: #fcfcfc;
+	transition: 0.3s ease;
+  }
+  .contact-form input:focus{
+	background: transparent;
+	border: 1px solid #69275c;
+  }
+  .contact-form button{
+	font-size: 18px;
+	color: #fff;
+	width: 100%;
+	background: #69275c;
+	font-weight: 600;
+	transition: 0.3s ease;
+	padding: 14px 15px;
+	border: 1px solid #69275c;
+	cursor: pointer;
+  }
+  .contact-form button:hover{
+	color: #5e0cd2;
+	transition: 0.5s;
+  }
+  @media(max-width:736px){
+	.contact-form .main{
+		flex-direction: column;
+	}
+	.contact-form form{
+		margin-top: 30px;
+		margin-bottom: 10px;
+  
+	}
+	.form-img{
+		border-radius: 0;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+		order: 2;
+	}
+	.content{
+		order: 1;
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+	}
+  }

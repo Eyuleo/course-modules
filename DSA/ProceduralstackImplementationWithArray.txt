@@ -1,0 +1,63 @@
+// Stack implementation using Array
+#include <iostream>
+#define max 5//100
+using namespace std;
+int stk[max];
+int top=-1;
+//Push oepration
+void push()
+{   int age;
+    if(top+1>=max)
+        cout<<"Stack is full\n.Note: An attempt to pop from empty stack results in stack underflow.\n";
+    else
+    {
+        cout<<"enter age \n";
+        cin>>age;
+        top=top+1;
+        stk[top]=age;
+    }
+}
+void pop()
+{
+    if(top==-1)
+      cout<<"stack is empty.\nNote: An attempt to pop from empty stack results in stack underflow.\n";
+    else
+    {
+        int a=stk[top];
+        top--;
+        cout<<"The poped value is "<<a<<"\n";
+    }
+}
+void print()
+{
+    if(top==-1)
+        cout<<"\n The stack is empty.\n";
+    else{
+        for(int i=0;i<=top;i++)
+            cout<<stk[i]<<"-->";
+        }
+            cout<<endl;
+
+}
+int main()
+{
+    //stack s; //object
+   // int age;
+    int n=4;
+    do
+    {
+        switch(n)
+        {
+            case 1: push();
+                    break;
+            case 2: pop();
+                    break;
+            case 3: print();
+                    break;
+            case 4:;
+                    break;
+        }
+        cout<<"1 to push\n2 to pop \n3 to print\n4 to terminate\n\n\nEnter operation you would like to perform on the stack:";
+        cin>>n;
+    }while(n!=4);
+}

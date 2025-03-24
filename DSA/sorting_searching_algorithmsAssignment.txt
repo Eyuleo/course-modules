@@ -1,0 +1,19 @@
+// Menu for your program
+Due date: November 8, 2023 before mid-night (11:59:59:59...)
+Searching algorithms implementation
+Sorting algorithms implementation
+
+
+Here different operations on list
+1. Searching algorithms implementation
+2. Sorting algorithms implementation
+
+
+1. Searching algorithms implementation
+	i. sequential search
+	ii. Binary search
+
+2. Sorting algorithms implementation
+	i. Bubble sort
+	ii. Insertion sort
+	iii. selection sort

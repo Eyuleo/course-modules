@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Blog</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <section id="blog">
+
+        <div class="blog-heading">
+            <span> Recent Posts</span>
+            <h3>My Blog</h3>
+        </div>
+
+        <div class="blog-container">
+            <div class="blog-box">
+                <div class="blog-img">
+                    <img src="Images/flutter.png" alt="">
+                </div>
+
+                <div class="blog-text">
+                    <span>31 March 2023  Flutter App Development</span>
+                    <a href="#" class="blog-title">Flutter is an open-source UI software development kit created by Google.</a>
+                    <p>It is used to develop cross-platform applications for Android, iOS, Linux, macOS, Windows, <br>
+                         Google Fuchsia, and the web from a single codebase.</p>
+                         <a href="https://flutter.dev/">Read More</a>
+                </div>
+
+            </div>
+
+            <div class="blog-box">
+                <div class="blog-img">
+                    <img src="Images/React-Native.png" alt="">
+                </div>
+
+                <div class="blog-text">
+                    <span>31 March 2023 React-Native App Development</span>
+                    <a href="#" class="blog-title">React Native is an open-source UI software framework created by Meta Platforms.</a>
+                    <p> It is used to develop applications for Android, Android TV, iOS, macOS, tvOS, Web, Windows and <br>
+                        UWP by enabling developers to use the React framework along with native platform capabilities.</p>
+                         <a href="https://reactnative.dev/">Read More</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <section>
+        <div class="contact-form">
+            <div class="containerr">
+                <div class="main">
+                    <div class="content">
+                       
+                        <form action="#" method="post">
+                            <input type="text" name="name" placeholder="Full Name" required>
+                          
+                            <input type="email" name="name" placeholder="Enter Your Email" required>
+                            <input type="password" name="name" placeholder="Enter new password" required>
+                                              
+                 <button  type="submit" class="btn" >Register <i class="fas fa-paper-plane"></i>
+                <a href=""></a>
+            </button>
+                        </form>
+                    </div>
+                    <div class="form-img">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </section>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+        
+          
+          const fullName = document.getElementById('fullName').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value.trim();
+        
+        
+          if (fullName === '' || email === '' || password === '') {
+            alert('Please fill in all fields.');
+            return;
+          }
+    
+          if (password.length < 8) {
+            alert('Password must be at least 8 characters.');
+            return;
+          }
+          alert('Registration successful!');
+        
+         
+          this.reset();
+        });
+        </script>
+</body>
+</html>

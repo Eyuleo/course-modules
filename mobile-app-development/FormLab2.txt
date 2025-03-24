@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+// Create a GlobalKey to uniquely identify the Form widget
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController username = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  String? selectedvalue;
+  bool cs = false;
+  bool se = false;
+  bool it = false;
+  bool ee = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
+        title: const Center(child: Text(" Registration Form")),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        key: _formKey, // Attach the form key to the form widget
+        child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: username,
+              decoration: const InputDecoration(labelText: 'username'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your username';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: passwordController,
+              decoration: const InputDecoration(labelText: 'password'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+            ),
+
+            //Checkbox
+            CheckboxListTile(
+                title: const Text("Computer Science"),
+                value: cs,
+                onChanged: (bool? value) {
+                  setState(() {
+                    cs = value!;
+                  });
+                }),
+
+            CheckboxListTile(
+                 title: const Text("Software Engineering"),
+                value: se,
+                onChanged: (bool? value) {
+                  setState(() {
+                    se = value!;
+                  });
+                }),
+
+                CheckboxListTile(
+                 title: const Text("Information Technology"),
+                value: it,
+                onChanged: (bool? value) {
+                  setState(() {
+                    it = value!;
+                  });
+                }),
+
+                CheckboxListTile(
+                 title: const Text("Electrical  Engineering"),
+                value: ee,
+                onChanged: (bool? value) {
+                  setState(() {
+                    ee = value!;
+                  });
+                }),
+            //Radio Button
+            ListTile(
+              title: const Text("Male"),
+              leading: Radio<String>(
+                value: "Male",
+                groupValue: selectedvalue,
+                onChanged: (value) {
+                  setState(() {
+                    selectedvalue = value;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text("Female"),
+              leading: Radio<String>(
+                value: "Female",
+                groupValue: selectedvalue,
+                onChanged: (value) {
+                  setState(() {
+                    selectedvalue = value;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // If the form is valid, display a snackbar
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data')));
+                  }
+                },
+                child: const Text('submit'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      ),
+    );
+  }
+}
