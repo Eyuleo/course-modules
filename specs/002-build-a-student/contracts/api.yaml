@@ -1,0 +1,531 @@
+openapi: 3.0.3
+info:
+  title: Student Skills Marketplace API
+  version: 0.1.0
+  description: REST API contracts enabling student listings, client ordering, messaging, and Stripe Connect flows.
+servers:
+  - url: https://api.student-marketplace.local
+    description: Local development
+  - url: https://api.student-marketplace.prod
+    description: Production
+components:
+  securitySchemes:
+    SanctumToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: object
+      required: [message]
+    StudentProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        university_name:
+          type: string
+        verification_status:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        average_rating:
+          type: number
+          format: float
+        completion_rate:
+          type: number
+          format: float
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceListing'
+    ServiceListing:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+        base_price:
+          type: number
+        price_unit:
+          type: string
+        delivery_time_days:
+          type: integer
+        status:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        rating_summary:
+          type: object
+          properties:
+            average_rating:
+              type: number
+            review_count:
+              type: integer
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        scope_summary:
+          type: string
+        budget_amount:
+          type: number
+        currency:
+          type: string
+        milestones:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              due_date:
+                type: string
+                format: date-time
+              amount:
+                type: number
+        client:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        student:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        sender_id:
+          type: string
+        body:
+          type: string
+        attachment_url:
+          type: string
+          format: uri
+        sent_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user (student or client)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phone_number:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: [student, client]
+                otp_code:
+                  type: string
+              required: [name, email, phone_number, password, role, otp_code]
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /students/profile:
+    get:
+      security:
+        - SanctumToken: []
+      summary: Retrieve authenticated student profile
+      responses:
+        '200':
+          description: Student profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProfile'
+    put:
+      security:
+        - SanctumToken: []
+      summary: Update student profile and verification data
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                biography:
+                  type: string
+                skills:
+                  type: array
+                  items:
+                    type: string
+                university_name:
+                  type: string
+                student_id_document:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Profile updated
+  /listings:
+    get:
+      summary: Search and filter service listings
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: q
+          schema:
+            type: string
+        - in: query
+          name: price_min
+          schema:
+            type: number
+        - in: query
+          name: price_max
+          schema:
+            type: number
+        - in: query
+          name: delivery_time
+          schema:
+            type: integer
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [relevance, rating_desc, price_asc, price_desc]
+      responses:
+        '200':
+          description: Paginated listings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiceListing'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      security:
+        - SanctumToken: []
+      summary: Create a new service listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                category_id:
+                  type: string
+                description:
+                  type: string
+                base_price:
+                  type: number
+                price_unit:
+                  type: string
+                  enum: [hour, project]
+                delivery_time_days:
+                  type: integer
+                tags:
+                  type: array
+                  items:
+                    type: string
+                portfolio_samples:
+                  type: array
+                  items:
+                    type: string
+              required: [title, category_id, description, base_price, price_unit, delivery_time_days]
+      responses:
+        '201':
+          description: Listing created
+  /listings/{id}:
+    get:
+      summary: Fetch single listing detail
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Listing details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceListing'
+    put:
+      security:
+        - SanctumToken: []
+      summary: Update existing listing
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                base_price:
+                  type: number
+                delivery_time_days:
+                  type: integer
+                status:
+                  type: string
+                  enum: [draft, published, paused]
+      responses:
+        '200':
+          description: Listing updated
+  /orders:
+    post:
+      security:
+        - SanctumToken: []
+      summary: Create order with escrow payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listing_id:
+                  type: string
+                title:
+                  type: string
+                scope_summary:
+                  type: string
+                requirements:
+                  type: object
+                milestone_plan:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      due_date:
+                        type: string
+                        format: date
+                      amount:
+                        type: number
+                budget_amount:
+                  type: number
+                currency:
+                  type: string
+              required: [listing_id, title, scope_summary, budget_amount, currency]
+      responses:
+        '201':
+          description: Order created; Stripe Payment Intent initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /orders/{id}:
+    get:
+      security:
+        - SanctumToken: []
+      summary: Fetch order details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    post:
+      security:
+        - SanctumToken: []
+      summary: Update order status via action
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [accept, decline, deliver, request_revision, approve, cancel]
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Order status updated
+  /orders/{id}/messages:
+    get:
+      security:
+        - SanctumToken: []
+      summary: List order message thread
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Messages returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+    post:
+      security:
+        - SanctumToken: []
+      summary: Send message in order thread
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                attachment:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Message sent
+  /orders/{id}/reviews:
+    post:
+      security:
+        - SanctumToken: []
+      summary: Submit review after order completion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                comment:
+                  type: string
+              required: [rating]
+      responses:
+        '201':
+          description: Review submitted
+  /disputes:
+    post:
+      security:
+        - SanctumToken: []
+      summary: Raise dispute on order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id:
+                  type: string
+                reason_code:
+                  type: string
+                description:
+                  type: string
+                evidence_links:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+              required: [order_id, reason_code]
+      responses:
+        '201':
+          description: Dispute opened
+  /stripe/webhook:
+    post:
+      summary: Receive Stripe webhook events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Webhook handled
+security:
+  - SanctumToken: []
